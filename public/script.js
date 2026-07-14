@@ -89,10 +89,7 @@ function renderArray(arr, container = results) {
 
     arr.forEach((item, index) => {
         const wrapper = document.createElement("div");
-        wrapper.style.marginBottom = "1rem";
-        wrapper.style.paddingBottom = "0.5rem";
-        wrapper.style.borderBottom = "1px solid #ccc";
-
+        wrapper.classList.add("result-card");
         const title = document.createElement("strong");
         title.textContent = `Resultado ${index + 1}:`;
         wrapper.appendChild(title);
@@ -159,9 +156,7 @@ function showDriverlessAndNoCar(data, container = results) {
     } else {
         data.noCar.forEach((driver, index) => {
             const wrapper = document.createElement("div");
-            wrapper.style.marginBottom = "1rem";
-            wrapper.style.paddingBottom = "0.5rem";
-            wrapper.style.borderBottom = "1px solid #ccc";
+            wrapper.classList.add("result-card");
             container.appendChild(wrapper);
             renderObject(driver, wrapper);
         });
@@ -179,9 +174,7 @@ function showDriverlessAndNoCar(data, container = results) {
     } else {
         data.driverless.forEach((car, index) => {
             const wrapper = document.createElement("div");
-            wrapper.style.marginBottom = "1rem";
-            wrapper.style.paddingBottom = "0.5rem";
-            wrapper.style.borderBottom = "1px solid #ccc";
+            wrapper.classList.add("result-card");
             container.appendChild(wrapper);
             renderObject(car, wrapper);
         });

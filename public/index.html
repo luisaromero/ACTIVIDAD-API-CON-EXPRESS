@@ -2,30 +2,84 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Actividad 2</title>
-    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <title>Conductores y Automóviles</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <main>
-      <h1>Conductores y Automóviles</h1>
-      <button id="btn-drivers">Ver todos los Conductores</button>
-      <button id="btn-cars">Ver todos los Automóviles</button>
-      <input type="number" id="search-by-age" placeholder="Edad" />
+      <header>
+        <h1>Conductores y Automóviles</h1>
+        <p>
+          Consulta información de conductores y automóviles mediante los
+          distintos endpoints del servidor.
+        </p>
+      </header>
 
-      <button id="btn-search-by-age">Buscar por Edad</button>
+      <section>
+        <h2>Listados generales</h2>
 
-      <button id="btn-alone">Ver solos</button>
+        <button id="btn-drivers">Ver todos los conductores</button>
 
-      <input type="text" id="patent" placeholder="Patente" />
+        <button id="btn-cars">Ver todos los automóviles</button>
+      </section>
 
-      <button id="btnPatent">Buscar por patente</button>
+      <section>
+        <h2>Conductores sin automóvil por edad</h2>
 
-      <input type="text" id="initial-letter" placeholder="Letra" />
+        <label for="search-by-age"> Mostrar conductores menores de: </label>
 
-      <button id="btn-initial-letter">Buscar por inicio patente</button>
-      <div id="results"></div>
+        <input type="number" id="search-by-age" placeholder="Ej: 30" />
+
+        <button id="btn-search-by-age">Buscar conductores sin automóvil</button>
+      </section>
+
+      <section>
+        <h2>Conductores y automóviles sin relación</h2>
+
+        <p>
+          Muestra conductores que no tienen automóvil y automóviles que no
+          tienen un conductor registrado.
+        </p>
+
+        <button id="btn-alone">
+          Ver conductores sin automóvil y automóviles sin conductor
+        </button>
+      </section>
+
+      <section>
+        <h2>Búsqueda por patente</h2>
+
+        <label for="patent"> Ingrese una patente: </label>
+
+        <input type="text" id="patent" placeholder="Ej: HXJH55" />
+
+        <button id="btnPatent">Buscar automóvil y conductor</button>
+      </section>
+
+      <section>
+        <h2>Búsqueda por letra inicial de patente</h2>
+
+        <label for="initial-letter"> Ingrese una letra: </label>
+
+        <input
+          type="text"
+          id="initial-letter"
+          maxlength="1"
+          placeholder="Ej: H"
+        />
+
+        <button id="btn-initial-letter">
+          Buscar automóviles por letra inicial
+        </button>
+      </section>
+
+      <section>
+        <h2>Resultados</h2>
+        <div id="results"></div>
+      </section>
     </main>
 
     <script src="/script.js"></script>
   </body>
 </html>
+```
