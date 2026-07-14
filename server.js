@@ -72,7 +72,7 @@ const cars = [
 ]
 
 // si ingresas a esta url te devolverá los conductores
-app.get('/drivers', (req, res) => {
+app.get('/conductores', (req, res) => {
     res.json(drivers);
 });
 
