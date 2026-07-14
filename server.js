@@ -130,74 +130,76 @@ app.get('/solitos', (req, res) => {
 //auto?patente=HXJH55
 app.get('/auto', (req, res) => {
 
-    // obtenemos la query de /patente=
-
     const patent = req.query.patente;
-    // con el metodo find 
+    const patentInitiation = req.query.iniciopatente;
 
-    const findThePatent = cars.find(
-        car => car.patente === patent
-    );
+    // Caso 1: búsqueda por patente exacta
+    if (patent) {
+        const findThePatent = cars.find(car => car.patente === patente);
 
-    if (!findThePatent) {
-        return res.status(404).json({
-            mensaje: 'Automóvil no encontrado'
+        if (!findThePatent) {
+            return res.status(404).json({
+                mensaje: 'Automóvil no encontrado'
+            });
+        }
+
+        const findTheDriver = drivers.find(
+            driver => driver.nombre === findThePatent.nombre_conductor
+        );
+
+        return res.json({
+            auto: findThePatent,
+            conductor: findTheDriver || null
         });
     }
 
-    const findTheDriver = drivers.find(
-        driver => driver.nombre === findThePatent.nombre_conductor
-    );
+    // url con query auto?iniciopatente=<letra>: 
+    // retorna los automóviles cuya patente comienza con <letra> y los datos de su conductor (si existe).
+    if (patentInitiation) {
+        // aquí es dónde guardaremos los resultados de la busqueda de info sobre los autos que comienzen con tales letras
+        let result = [];
 
-    // si no encuentra conductor , retorna null
+        // hacemos un recorrido por todos los autos buscando cuales estan con esas letras de inicio , método starwith ayudará a eso
 
-    res.json({
-        auto: findThePatent,
-        conductor: findTheDriver || null
+        for (let car of cars) {
+
+            // El método startsWith() indica si una cadena de texto comienza con los caracteres de una cadena de texto 
+            // concreta, devolviendo true o false según corresponda.
+
+            if (car.patente.startsWith(patentInitiation)) {
+                //   inicializamos una variable para guardar el conductor encontrado si es que ese auto con esas iniciales tiene conductor
+                let driverFound = null;
+                // hacemos un nuevo recorrido dentro del mismo recorrido de autos , esta vez para tomar los datos de los autos y
+                // hacerlos coincidir si existe una coincidencia con si el auto encuentra al conductor dentro de este for
+                for (let driver of drivers) {
+
+                    if (driver.nombre === car.nombre_conductor) {
+                        // guardamos los datos del conductor encontrado
+                        driverFound = driver;
+                        break;
+                    }
+                }
+                // dentro del bucle de autos vamos , agregando un obj con los datos del auto y el conductor
+                result.push({
+                    auto: car,
+                    conductor: driverFound
+                });
+            }
+        }
+
+        res.json(result);
+
+    }
+
+    // Si no viene ninguno de los dos query params
+    return res.status(400).json({
+        mensaje: 'Debes enviar el query "patente" o "iniciopatente"'
     });
 
 });
 
-// url con query auto?iniciopatente=<letra>: 
-// retorna los automóviles cuya patente comienza con <letra> y los datos de su conductor (si existe).
-app.get('/auto', (req, res) => {
 
-    // obtenemos la query de /iniciopatente=
-    const patentInitiation = req.query.iniciopatente;
 
-    // aquí es dónde guardaremos los resultados de la busqueda de info sobre los autos que comienzen con tales letras
-    let result = [];
-
-    // hacemos un recorrido por todos los autos buscando cuales estan con esas letras de inicio , método starwith ayudará a eso
-
-    for (let car of cars) {
-
-        // El método startsWith() indica si una cadena de texto comienza con los caracteres de una cadena de texto 
-        // concreta, devolviendo true o false según corresponda.
-
-        if (car.patente.startsWith(patentInitiation)) {
-            //   inicializamos una variable para guardar el conductor encontrado si es que ese auto con esas iniciales tiene conductor
-            let driverFound = null;
-            // hacemos un nuevo recorrido dentro del mismo recorrido de autos , esta vez para tomar los datos de los autos y
-            // hacerlos coincidir si existe una coincidencia con si el auto encuentra al conductor dentro de este for
-            for (let driver of drivers) {
-
-                if (driver.nombre === car.nombre_conductor) {
-                    // guardamos los datos del conductor encontrado
-                    driverFound = driver;
-                    break;
-                }
-            }
-            // dentro del bucle de autos vamos , agregando un obj con los datos del auto y el conductor
-            result.push({
-                auto: car,
-                conductor: driverFound
-            });
-        }
-    }
-
-    res.json(result);
-});
 app.use(express.static('public'));
 
 app.listen(3000, () => {

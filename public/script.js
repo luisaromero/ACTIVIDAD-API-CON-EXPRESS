@@ -2,6 +2,7 @@
 const results = document.getElementById("results");
 
 document.getElementById("btnPatent").addEventListener("click", searchByPatent);
+document.getElementById("btn-initial-letter").addEventListener("click", searchByLetters);
 
 function cleanData() {
     results.replaceChildren();
@@ -17,7 +18,19 @@ async function searchByPatent() {
     const data = await response.json();
 
 
-    mostrarAuto(data, results)
+    renderObjects(data, results)
+}
+async function searchByLetters() {
+
+    const patentValue = document.getElementById("initial-letter").value;
+    console.log('letras', patentValue)
+
+    const response = await fetch(`http://localhost:3000/auto?iniciopatente=${patentValue}`);
+
+    const data = await response.json();
+
+
+    console.log(data)
 }
 
 // retorna el automóvil con patente <string> y los datos de su conductor (si existe).
@@ -45,36 +58,4 @@ function renderObjects(obj, container = results) {
         }
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // const card = document.createElement("div");
-
-    // const brand = document.createElement("p");
-    // brand.textContent = `Marca: ${data.auto.marca}`;
-
-    // const patent = document.createElement("p");
-    // patent.textContent = `Patente: ${data.auto.patente}`;
-
-    // const driver = document.createElement("p");
-
-    // driver.textContent = `Conductor: ${data.conductor ? data.conductor.nombre : "No existe"}`;
-
-    // card.append(
-    //     brand,
-    //     patent,
-    //     driver
-    // );
-
-    // results.appendChild(card);
 }
