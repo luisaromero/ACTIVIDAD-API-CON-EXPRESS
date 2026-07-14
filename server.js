@@ -135,7 +135,7 @@ app.get('/auto', (req, res) => {
 
     // Caso 1: búsqueda por patente exacta
     if (patent) {
-        const findThePatent = cars.find(car => car.patente === patente);
+        const findThePatent = cars.find(car => car.patente === patent);
 
         if (!findThePatent) {
             return res.status(404).json({
