@@ -73,12 +73,24 @@ const cars = [
 
 // si ingresas a esta url te devolverá los conductores
 app.get('/conductores', (req, res) => {
-    res.json(drivers);
+    if (drivers.length === 0) {
+        return res.status(404).json({
+            mensaje: 'No hay conductores registrados'
+        });
+    }
+
+    res.status(200).json(drivers);
 });
 
 // si ingresas a esta url te devolverá los autos
 app.get('/automoviles', (req, res) => {
-    res.json(cars);
+    if (cars.length === 0) {
+        return res.status(404).json({
+            mensaje: 'No hay automóviles registrados'
+        });
+    }
+
+    res.status(200).json(cars);
 });
 
 // retorna conductores menores de <numero> años que no tienen automóvil.
@@ -87,6 +99,12 @@ app.get('/conductoressinauto', (req, res) => {
 
     //tomamos el año en el parametro que nos llega de la url
     const age = parseInt(req.query.edad);
+
+    if (req.query.edad === undefined || isNaN(age)) {
+        return res.status(400).json({
+            mensaje: 'Debes enviar un query "edad" numérico'
+        });
+    }
 
     const driversWithoutACar = drivers.filter(driver => {
 
@@ -97,7 +115,13 @@ app.get('/conductoressinauto', (req, res) => {
         return driver.edad < age && !hasCar;
     });
 
-    res.json(driversWithoutACar);
+    if (driversWithoutACar.length === 0) {
+        return res.status(404).json({
+            mensaje: 'No se encontraron conductores sin auto para esa edad'
+        });
+    }
+
+    res.status(200).json(driversWithoutACar);
 });
 
 // retorna la lista de conductores sin automóvil y automóviles sin conductor.
@@ -119,7 +143,13 @@ app.get('/solitos', (req, res) => {
         )
     );
 
-    res.json({
+    if (noCar.length === 0 && driverless.length === 0) {
+        return res.status(404).json({
+            mensaje: 'No hay conductores sin auto ni autos sin conductor'
+        });
+    }
+
+    res.status(200).json({
         noCar,
         driverless
     });
@@ -147,7 +177,7 @@ app.get('/auto', (req, res) => {
             driver => driver.nombre === findThePatent.nombre_conductor
         );
 
-        return res.json({
+        return res.status(200).json({
             auto: findThePatent,
             conductor: findTheDriver || null
         });
@@ -180,10 +210,13 @@ app.get('/auto', (req, res) => {
                     }
                 }
                 // dentro del bucle de autos vamos , agregando un obj con los datos del auto y el conductor
-                result.push({
-                    auto: car,
-                    conductor: driverFound
-                });
+                if (result.length === 0) {
+                    return res.status(404).json({
+                        mensaje: 'No se encontraron automóviles con esa inicial de patente'
+                    });
+                }
+
+                return res.status(200).json(result);
             }
         }
 

@@ -61,7 +61,13 @@ async function searchByPatent() {
 
     const data = await response.json();
 
-    renderObject(data, results)
+    results.replaceChildren();
+
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("result-card");
+    results.appendChild(wrapper);
+
+    renderObject(data, wrapper);
 }
 
 
@@ -90,54 +96,67 @@ function renderArray(arr, container = results) {
     arr.forEach((item, index) => {
         const wrapper = document.createElement("div");
         wrapper.classList.add("result-card");
-        const title = document.createElement("strong");
-        title.textContent = `Resultado ${index + 1}:`;
-        wrapper.appendChild(title);
-
         container.appendChild(wrapper);
 
         renderObject(item, wrapper); // reutiliza tu función existente
     });
 }
 
+function createLine(labelText, valueText) {
+    const line = document.createElement("div");
+
+    const label = document.createElement("strong");
+    label.textContent = `${labelText}: `;
+
+    const span = document.createElement("span");
+    span.textContent = valueText;
+
+    line.append(label, span);
+
+    return line;
+}
+
 
 
 function renderObject(obj, container = results) {
-    container.replaceChildren();
 
     Object.entries(obj).forEach(([key, value]) => {
-        if (typeof value === "object" && value !== null) {
+
+        if (value === null) {
+            container.appendChild(
+                createLine(key, "No disponible")
+            );
+            return;
+        }
+
+        if (typeof value === "object") {
+
             const title = document.createElement("div");
+
             const label = document.createElement("strong");
             label.textContent = `${key}:`;
+
             title.appendChild(label);
+
             container.appendChild(title);
 
             const block = document.createElement("div");
             block.style.marginLeft = "1rem";
+
+            Object.entries(value).forEach(([nestedKey, nestedVal]) => {
+                block.appendChild(
+                    createLine(nestedKey, nestedVal)
+                );
+            });
+
             container.appendChild(block);
 
-            // recursivo para el objeto anidado, sin limpiar container
-            Object.entries(value).forEach(([nestedKey, nestedVal]) => {
-                const line = document.createElement("div");
-                const nestedLabel = document.createElement("strong");
-                nestedLabel.textContent = `${nestedKey}: `;
-                const span = document.createElement("span");
-                span.textContent = nestedVal;
-                line.appendChild(nestedLabel);
-                line.appendChild(span);
-                block.appendChild(line);
-            });
-        } else {
-            const line = document.createElement("div");
-            const label = document.createElement("strong");
-            label.textContent = `${key}: `;
-            const span = document.createElement("span");
-            span.textContent = value;
-            line.appendChild(label);
-            line.appendChild(span);
-            container.appendChild(line);
+            return;
         }
+
+        container.appendChild(
+            createLine(key, value)
+        );
     });
 }
 
