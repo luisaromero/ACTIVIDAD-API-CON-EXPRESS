@@ -10,7 +10,7 @@ A continuación se muestra la data del endopint que va a buscar la info , junto 
 
 ## Captura del Front End
 
-A continuación se muestra cada endpoint disponible junto con su botón correspondiente en el frontend y una captura de lo que retorna al presionarlo.
+Aquí vemos cada botón e inputs necesarios para probar los endpoints que devuelve todo o los que devuelven según la condición que pida el input
 
 ![Vista previa del front end](./public/img/preview.png)
 
