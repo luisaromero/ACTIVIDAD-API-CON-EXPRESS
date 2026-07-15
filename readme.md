@@ -1,20 +1,16 @@
-# Sistema Conductores & Automóviles
+# Sistema Conductores & Automóviles 🚗
 
 ## ¿De qué trata el proyecto?
 
-Este proyecto es una aplicación web que administra un registro de **conductores** y **automóviles**. Cuenta con un backend (servidor Node/Express) que expone distintos endpoints tipo `GET` para consultar la información (conductores sin auto, autos sin conductor, búsqueda por patente, etc.), y un frontend que consume esos endpoints y muestra los resultados de forma ordenada (listas, tarjetas o tablas). Cada consulta se activa desde un **botón** en la interfaz.
-
----
+Este proyecto es una aplicación web que administra un registro de **conductores** y **automóviles**. Cuenta con un backend (servidor Node/Express) que expone distintos endpoints tipo `GET` para consultar la información (conductores sin auto, autos sin conductor, búsqueda por patente, etc.), y un frontend que consume esos endpoints y muestra los resultados de forma ordenada . Cada consulta se activa desde un **botón** en la interfaz.
 
 ## Funcionalidades (capturas de cada botón)
 
 A continuación se muestra la data del endopint que va a buscar la info , junto con su botón correspondiente en el frontend y una captura de lo que retorna
 
----
-
 ## Captura del Front End
 
-Aquí vemos cada botón e inputs necesarios para probar los endpoints que devuelve todo o los que devuelven según la condición que pida el input
+A continuación se muestra cada endpoint disponible junto con su botón correspondiente en el frontend y una captura de lo que retorna al presionarlo.
 
 ![Vista previa del front end](./public/img/preview.png)
 
